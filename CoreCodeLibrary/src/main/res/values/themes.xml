@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.XjhCoreCode" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.XjhCoreCode" parent="Base.Theme.XjhCoreCode" />
+
+    <declare-styleable name="CommonToolbar">
+        <attr format="boolean" name="if_backIcon"/>
+        <attr format="boolean" name="if_backText"/>
+        <attr format="string" name="titleText"/>
+        <attr format="string" name="backText"/>
+        <attr format="color" name="background_color"/>
+    </declare-styleable>
+</resources>

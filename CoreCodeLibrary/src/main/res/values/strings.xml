@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Xjh\'CoreCode</string>
+    <dimen name="toolbar_height">35dp</dimen>
+    <color name="common_text_main_black">#1A1A1A</color>
+    <dimen name="title_text_size">16sp</dimen>
+    <string name="icon_back_describe">返回</string>
+</resources>
