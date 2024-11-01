@@ -15,7 +15,7 @@
         app:backText="返回"
         app:titleText="主页"/>
 
-    <com.jxdx.corecodelibrary.recyclerview.MyRecyclerView
+    <com.jxdx.corecodelibrary.recyclerview.DragRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
