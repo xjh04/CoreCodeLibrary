@@ -39,6 +39,9 @@ android {
 }
 
 dependencies {
+    // Okhttp
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
     implementation(project(":CoreCodeLibrary"))
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
