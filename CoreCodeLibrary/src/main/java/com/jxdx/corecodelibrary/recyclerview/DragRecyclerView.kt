@@ -5,7 +5,10 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-
+/**
+ * Item能拖拽的RecyclerView。
+ * @author xjh
+ */
 class DragRecyclerView(context: Context, attrs: AttributeSet? = null) : RecyclerView(context, attrs) {
     private var touchStartX = 0f
     private var touchStartY = 0f

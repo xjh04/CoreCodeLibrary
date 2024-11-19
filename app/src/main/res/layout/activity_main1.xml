@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:expanded="true">
+
+<!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
+<!--            android:id="@+id/collapsingToolbarLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="250dp"-->
+<!--            app:contentScrim="@color/white"-->
+<!--            app:collapsedTitleGravity="center"-->
+<!--            app:collapsedTitleTextColor="@color/white"-->
+<!--            app:expandedTitleGravity="start|bottom"-->
+<!--            app:expandedTitleTextColor="@color/white"-->
+<!--            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap" />-->
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/white"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior=".demo1.MyBehavior" >
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="你的外卖到了"
+            android:textSize="25sp" />
+    </androidx.core.widget.NestedScrollView>
+
+    <ImageView
+        android:id="@+id/background"
+        android:alpha="0"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/pic"
+        app:layout_behavior=".demo1.MyImageViewBehavior"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior=".demo1.MyRecyclerViewBehavior"
+        android:overScrollMode="never"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

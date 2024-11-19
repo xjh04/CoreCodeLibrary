@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+    <!-- Transition 定义动画过程中的开始状态和结束状态 -->
+    <!-- constraintSetStart 动画开始状态的布局文件引用 -->
+    <!-- constraintSetEnd 动画结束状态的布局文件引用 -->
+    <Transition
+        motion:constraintSetEnd="@id/end_scene"
+        motion:constraintSetStart="@id/start_scene"
+        motion:duration="1000">
+        <!--OnClick 用于处理用户点击事件 -->
+        <!--targetId 设置触发点击事件的组件 -->
+        <!--clickAction 设置点击操作的响应行为，这里是使动画过渡到结束状态 -->
+        <OnSwipe
+            app:dragDirection="dragUp"
+            app:onTouchUp="autoComplete"
+            app:touchAnchorId="@id/recyclerView"/>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start_scene">
+        <Constraint
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@drawable/pic"
+            app:layout_constraintTop_toTopOf="parent"
+            android:alpha="0"
+            />
+        <Constraint
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/text"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <Constraint
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="你的外卖到了"
+            android:textSize="25sp"
+            app:layout_constraintTop_toBottomOf="@id/background" />
+
+    </ConstraintSet>
+
+
+    <ConstraintSet android:id="@+id/end_scene">
+        <Constraint
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@drawable/pic"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="-50dp"
+            android:alpha="1"/>
+        <Constraint
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/text"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <Constraint
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-40dp"
+            android:text="你的外卖到了"
+            android:textSize="25sp"
+            app:layout_constraintTop_toBottomOf="@id/background" />
+    </ConstraintSet>
+
+</MotionScene>
