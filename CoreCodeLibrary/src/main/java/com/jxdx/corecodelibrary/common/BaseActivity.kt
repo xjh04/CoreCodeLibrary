@@ -3,6 +3,7 @@ package com.jxdx.corecodelibrary.common
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
@@ -73,19 +74,17 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
 
         binding.root.setOnApplyWindowInsetsListener { v, insets ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-                val systemBars =
-                    insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
                 v.updatePadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             }
             insets
         }
 
         if (isDarkTheme) {
-            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+            decorView.systemUiVisibility = decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         } else {
-            decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            decorView.systemUiVisibility = decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
-
     }
 
     /** 初始化控件  */
