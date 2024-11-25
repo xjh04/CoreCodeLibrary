@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import com.jxdx.corecodelibrary.common.BaseChart
 import com.jxdx.corecodelibrary.data.PieChartData
 import kotlin.math.cos
 import kotlin.math.min

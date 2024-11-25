@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
+import com.jxdx.corecodelibrary.common.BaseFormChart
 import com.jxdx.corecodelibrary.data.LineChartData
 
 class LineChart(context: Context, attrs: AttributeSet? = null) : BaseFormChart(context, attrs) {

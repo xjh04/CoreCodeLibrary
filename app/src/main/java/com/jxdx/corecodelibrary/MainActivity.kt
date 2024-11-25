@@ -12,11 +12,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         menu = binding.menu
         val data = listOf(
             "自定义Behavior",
-            "自定义MPChart图表库"
+            "自定义MPChart图表库",
+            "自定义缩放"
         )
         menu.adapter = MenuAdapter(this,data)
         menu.layoutManager = LinearLayoutManager(this)
-        menu.addItemDecoration(CommonItemDecoration(0,0,0,10))
+        menu.addItemDecoration(CommonItemDecoration(0,0,5,5))
     }
 
     override fun subscribeUi() {

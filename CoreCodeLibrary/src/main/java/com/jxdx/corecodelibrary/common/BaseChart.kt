@@ -1,4 +1,4 @@
-package com.jxdx.corecodelibrary.widget
+package com.jxdx.corecodelibrary.common
 
 import android.content.Context
 import android.graphics.Canvas
