@@ -11,6 +11,7 @@ import com.jxdx.corecodelibrary.databinding.MenuItemBinding
 import com.jxdx.corecodelibrary.demo1.MainActivity1
 import com.jxdx.corecodelibrary.demo2.MainActivity2
 import com.jxdx.corecodelibrary.demo3.MainActivity3
+import com.jxdx.corecodelibrary.demo4.MainActivity4
 
 class MenuAdapter(private val context: Context, private val data: List<String>) :
     RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
@@ -50,6 +51,10 @@ class MenuAdapter(private val context: Context, private val data: List<String>) 
 
                 2 -> {
                     intent = Intent(context, MainActivity3::class.java)
+                    context.startActivity(intent)
+                }
+                3 -> {
+                    intent = Intent(context, MainActivity4::class.java)
                     context.startActivity(intent)
                 }
             }

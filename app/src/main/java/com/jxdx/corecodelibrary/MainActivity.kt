@@ -13,7 +13,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val data = listOf(
             "自定义Behavior",
             "自定义MPChart图表库",
-            "自定义缩放"
+            "自定义缩放",
+            "自定义弹幕组件"
         )
         menu.adapter = MenuAdapter(this,data)
         menu.layoutManager = LinearLayoutManager(this)
