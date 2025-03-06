@@ -74,8 +74,8 @@ class ScalableImageView(context: Context, attrs: AttributeSet? = null) :
                 }
                 else {
                     if (event.historySize > 0 && scaleFactor > 1.0) {
-                        val dx = event.x - event.getHistoricalX(0, 0)
-                        val dy = event.y - event.getHistoricalY(0, 0)
+                        val dx = event.x - event.getHistoricalX(0, event.historySize-1)
+                        val dy = event.y - event.getHistoricalY(0, event.historySize-1)
 
                         // 限制图片的移动范围
                         if (isHorizontalCorner(dx)) {

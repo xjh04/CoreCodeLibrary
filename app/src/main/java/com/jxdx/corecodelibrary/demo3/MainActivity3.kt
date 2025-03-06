@@ -21,6 +21,7 @@ class MainActivity3 : BaseActivity<ActivityMain3Binding>() {
         imageView.setOnClickListener{
             Log.d("MainActivity3", "onClick")
         }
+
     }
 
     override fun subscribeUi() {

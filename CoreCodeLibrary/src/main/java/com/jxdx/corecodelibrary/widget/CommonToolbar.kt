@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +37,6 @@ class CommonToolbar @JvmOverloads constructor(
         toolbarBackText = binding.toolbarBackText
         commonToolbarBackground = binding.commonToolbar
     }
-
 
     override fun getTypeArray(typedArray: TypedArray) {
         titleText = typedArray.getString(R.styleable.CommonToolbar_titleText)
