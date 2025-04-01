@@ -2,7 +2,6 @@ package com.jxdx.corecodelibrary.demo1
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,9 +15,6 @@ class MyBehavior(context: Context, attrs: AttributeSet) :
 
     private var maxScrollDistance = 50
     private var totalScrollDistance = 0
-    private var startY = 0f
-
-    private var direction = false
     override fun layoutDependsOn(
         parent: CoordinatorLayout,
         child: View,
@@ -42,26 +38,6 @@ class MyBehavior(context: Context, attrs: AttributeSet) :
             child.findViewById<TextView>(R.id.text)
         textView.alpha = al
         return true
-    }
-
-    override fun onTouchEvent(parent: CoordinatorLayout, child: View, ev: MotionEvent): Boolean {
-        when (ev.action) {
-            MotionEvent.ACTION_DOWN -> {
-                startY = ev.y
-            }
-            MotionEvent.ACTION_UP -> {
-                val endY = ev.y
-                val deltaY = startY - endY
-                if (deltaY > 0) {
-                    // 向上滑动
-                    direction = true
-                } else if (deltaY < 0) {
-                    // 向下滑动
-                    direction = false
-                }
-            }
-        }
-        return super.onTouchEvent(parent, child, ev)
     }
 
     override fun onStartNestedScroll(

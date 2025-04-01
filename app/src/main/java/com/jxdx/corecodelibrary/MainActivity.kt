@@ -1,37 +1,73 @@
 package com.jxdx.corecodelibrary
 
 import android.util.Log
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jxdx.corecodelibrary.common.BaseActivity
 import com.jxdx.corecodelibrary.databinding.ActivityMainBinding
+import com.jxdx.corecodelibrary.http.BaseResponseState
+import com.jxdx.corecodelibrary.http.HttpManager
 import com.jxdx.corecodelibrary.recyclerview.CommonItemDecoration
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-    private lateinit var menu :RecyclerView
+    private lateinit var menu: RecyclerView
+
+    private val liveData: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this)[MainViewModel::class.java]
+    }
+
+
     override fun initView() {
+
+        HttpManager.init("http://47.99.43.189:8898/")
         menu = binding.menu
+
         val data = listOf(
             "自定义Behavior",
             "自定义MPChart图表库",
             "自定义缩放",
             "自定义弹幕组件"
         )
-        menu.adapter = MenuAdapter(this,data)
+        menu.adapter = MenuAdapter(this, data)
         menu.layoutManager = LinearLayoutManager(this)
-        menu.addItemDecoration(CommonItemDecoration(0,0,5,5))
-        val scope = CoroutineScope(Dispatchers.Main)
+        menu.addItemDecoration(CommonItemDecoration(0, 0, 5, 5))
 
-        scope.launch {
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.ifLogin.collect {
+                    when (it) {
+                        is BaseResponseState.Loading -> {
+                            Log.d("MainActivity!", "Loading")
+                        }
+
+                        is BaseResponseState.Success -> {
+                            Log.d("MainActivity!", it.data.message.toString())
+                            liveData.value = "Hello World!"
+                        }
+
+                        is BaseResponseState.Error -> {
+                            Log.d("MainActivity!", it.message)
+                        }
+                    }
+                }
+            }
         }
+
+
     }
+
+
 
     override fun subscribeUi() {
 
@@ -43,21 +79,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun setStatusBar(): Int {
         return TRANSPARENT_STATUS_BAR_LIGHT
-    }
-
-    private fun main() = runBlocking {
-        coroutineScope {
-            launch {
-                delay(1000)
-                Log.d("MainActivity!", "Task 1")
-            }
-            delay(100)
-            Log.d("MainActivity!", "Task 2")
-        }
-        launch {
-            delay(100)
-            Log.d("MainActivity!", "Task 3")
-        }
-        Log.d("MainActivity!", "over")
     }
 }
