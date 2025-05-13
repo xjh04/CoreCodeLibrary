@@ -11,25 +11,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jxdx.corecodelibrary.common.BaseActivity
 import com.jxdx.corecodelibrary.databinding.ActivityMainBinding
 import com.jxdx.corecodelibrary.http.BaseResponseState
-import com.jxdx.corecodelibrary.http.HttpManager
 import com.jxdx.corecodelibrary.recyclerview.CommonItemDecoration
 import kotlinx.coroutines.launch
 
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var menu: RecyclerView
-
-    private val liveData: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this)[MainViewModel::class.java]
     }
 
-
     override fun initView() {
 
-        HttpManager.init("http://47.99.43.189:8898/")
+
         menu = binding.menu
 
         val data = listOf(
@@ -68,8 +62,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
 
+    private val liveData: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
     override fun subscribeUi() {
+
+        liveData.observe(this){ s ->
+            Log.d("MainActivity!", s)
+        }
+
+        liveData.value = "Hello World!"
 
     }
 
