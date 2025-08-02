@@ -11,7 +11,7 @@ import com.jxdx.corecodelibrary.Compose.ui.DebugScreen
 import com.jxdx.corecodelibrary.Compose.viewmodel.DebugViewModel
 
 class ComposeMainActivity : AppCompatActivity() {
-
+    // Compose 中 viewModel 的标准获取方式
     private val viewModel: DebugViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,13 +20,14 @@ class ComposeMainActivity : AppCompatActivity() {
         return setContent {
             setContent {
                 MaterialTheme {
+                    // 有状态的控件
                     // 从 ViewModel 中收集状态
                     val items by viewModel.uiState.collectAsState()
 
-                    // 主屏幕 UI
                     DebugScreen(
-                        items = items,
-                        onUrlChanged = viewModel::onUrlChanged, // 将 UI 事件委托给 ViewModel
+                        items = items.items,
+                        // 将 UI 事件委托给 ViewModel
+                        onUrlChanged = viewModel::onUrlChanged,
                         onGoClicked = viewModel::onGoClicked,
                         onDebugSwitchChanged = viewModel::onDebugSwitchChanged
                     )

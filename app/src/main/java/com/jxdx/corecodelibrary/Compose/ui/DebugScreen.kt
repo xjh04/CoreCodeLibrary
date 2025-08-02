@@ -35,6 +35,20 @@ import androidx.compose.ui.unit.sp
 import com.jxdx.corecodelibrary.Compose.bean.ListItem
 import com.jxdx.corecodelibrary.Compose.bean.UserInfo
 
+/**
+ * DebugScreen 是一个 "无状态" (Stateless) 的 Composable 函数。
+ * "无状态" 意味着它自身不持有任何可变状态（如 remember { mutableStateOf(...) }）。
+ * 它的所有行为和显示内容都由传入的参数决定。这使得它非常易于预览、测试和复用。
+ *
+ * @param items 这是一个列表，包含了所有需要在屏幕上展示的数据项。
+ *              它是一个 sealed class (ListItem) 的列表，这使得我们可以用 when 语句来处理不同类型的数据项。
+ * @param onUrlChanged 一个函数回调，当 URL 输入框的内容改变时会被调用。
+ *                     它接收一个新的 String 作为参数。
+ * @param onGoClicked 一个函数回调，当用户点击 "进入" 按钮时被调用。
+ *                    它接收当前的 URL 字符串作为参数。
+ * @param onDebugSwitchChanged 一个函数回调，当用户切换调试开关时被调用。
+ *                             它接收一个新的 Boolean 值 (true 或 false) 作为参数。
+ */
 @Composable
 fun DebugScreen(
     items: List<ListItem>,
@@ -43,25 +57,49 @@ fun DebugScreen(
     onDebugSwitchChanged: (Boolean) -> Unit
 ) {
     LazyColumn(
+        // Modifier 用于修饰或给 Composable 添加行为，如大小、内边距、点击事件等。
         modifier = Modifier
             .fillMaxSize()
+            // 左右两边添加 16dp 的内边距。
             .padding(horizontal = 16.dp),
+
+        // 会在每个列表项之间自动添加 12dp 的垂直间距。
         verticalArrangement = Arrangement.spacedBy(12.dp),
+        // 会在列表的顶部和底部分别添加 16dp 的内边距，
         contentPadding = PaddingValues(vertical = 16.dp)
     ) {
-        items(items, key = { it::class.java.simpleName }) { item ->
-            // 添加 key 提高性能
+        // 我们使用 'items' 这个扩展函数来根据一个列表动态生成所有的列表项。
+        items(
+            items = items,
+
+            // 使用每个列表项的类名作为 key，
+            // 当列表数据发生变化时，Compose 可以通过 key 来识别哪些项是真正改变了，
+            // 从而只重组改变了的项，而不是整个列表。
+            key = { item -> item::class.java.simpleName }
+        ) { item -> // lambda 会为列表中的每一项被调用一次。
+
+            // when语句是处理 sealed class 的完美方式。
             when (item) {
-                is ListItem.UserInfoItem -> UserInfoCard(userInfo = item.userInfo)
-                is ListItem.UrlInputItem -> UrlInputCard(
-                    currentUrl = item.urlItem.url,
-                    onUrlChanged = onUrlChanged,
-                    onGoClicked = onGoClicked
-                )
-                is ListItem.DebugSwitchItemType -> DebugSwitchCard(
-                    isEnabled = item.debugSwitch.isEnabled,
-                    onSwitchChanged = onDebugSwitchChanged
-                )
+                is ListItem.UserInfoItem -> {
+                    UserInfoCard(userInfo = item.userInfo)
+                }
+
+                is ListItem.UrlInputItem -> {
+                    // onUrlChanged 和 onGoClicked这两个事件回调直接从 DebugScreen 的参数透传下去。
+                    // 这种模式称为 "状态提升"，子组件的事件通知父组件处理。
+                    UrlInputCard(
+                        currentUrl = item.urlItem.url,
+                        onUrlChanged = onUrlChanged,
+                        onGoClicked = onGoClicked
+                    )
+                }
+
+                is ListItem.DebugSwitchItemType -> {
+                    DebugSwitchCard(
+                        isEnabled = item.debugSwitch.isEnabled,
+                        onSwitchChanged = onDebugSwitchChanged
+                    )
+                }
             }
         }
     }
@@ -115,14 +153,12 @@ fun UserInfoRow(label: String, value: String, modifier: Modifier = Modifier) {
  */
 @Composable
 fun UrlInputCard(
-    currentUrl: String, // 从 initialUrl 改为 currentUrl，表示当前状态
+    currentUrl: String,
     onUrlChanged: (String) -> Unit,
     onGoClicked: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // 移除了 'var url by remember { mutableStateOf(initialUrl) }'
-    // 现在这个组件是无状态的，完全由外部驱动
-
+    // 这个组件也是无状态的，完全由外部驱动
     val focusManager = LocalFocusManager.current
 
     Card(
@@ -139,8 +175,8 @@ fun UrlInputCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedTextField(
-                value = currentUrl, // 直接使用传入的 currentUrl
-                onValueChange = onUrlChanged, // 每次变化时，通知 ViewModel
+                value = currentUrl,
+                onValueChange = onUrlChanged,
                 placeholder = { Text("请输入url地址", fontSize = 16.sp) },
                 modifier = Modifier.weight(1f),
                 singleLine = true,
@@ -151,7 +187,8 @@ fun UrlInputCard(
                 keyboardActions = KeyboardActions(
                     onGo = {
                         onGoClicked(currentUrl)
-                        focusManager.clearFocus() // 点击后收起键盘
+                        // 点击后收起键盘
+                        focusManager.clearFocus()
                     }
                 ),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -164,14 +201,13 @@ fun UrlInputCard(
             Button(
                 onClick = {
                     onGoClicked(currentUrl)
-                    focusManager.clearFocus() // 点击后收起键盘
+                    // 点击后收起键盘
+                    focusManager.clearFocus()
                 },
-                modifier = Modifier
-                    .height(40.dp)
-                    .padding(start = 8.dp),
+                modifier = Modifier.height(35.dp),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text("进入", fontSize = 15.sp)
+                Text("进入", fontSize = 13.sp)
             }
         }
     }

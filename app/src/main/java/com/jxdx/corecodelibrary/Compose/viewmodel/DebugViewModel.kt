@@ -7,16 +7,30 @@ import com.jxdx.corecodelibrary.Compose.bean.DebugSwitchItem
 import com.jxdx.corecodelibrary.Compose.bean.ListItem
 import com.jxdx.corecodelibrary.Compose.bean.UrlItem
 import com.jxdx.corecodelibrary.Compose.bean.UserInfo
+import com.jxdx.corecodelibrary.Compose.domain.GetDebugScreenDataUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class DebugViewModel : ViewModel() {
+class DebugViewModel: ViewModel() {
+
+    // 引入新的状态来表示加载中、成功、失败
+    data class DebugScreenUiState(
+        val isLoading: Boolean = true,
+        var items: List<ListItem> = emptyList(),
+        val error: String? = null
+    )
+    private val getDebugScreenDataUseCase by lazy {
+        GetDebugScreenDataUseCase()
+    }
     // 私有的、可变的 StateFlow，作为内部状态持有者
-    private val _uiState = MutableStateFlow<List<ListItem>>(emptyList())
+    private val _uiState = MutableStateFlow(DebugScreenUiState())
+
     // 公开的、只读的 StateFlow，供 UI 订阅
-    val uiState: StateFlow<List<ListItem>> = _uiState.asStateFlow()
+    // asStateFlow 确保 单向数据流 和 封装 特性
+    val uiState: StateFlow<DebugScreenUiState> = _uiState.asStateFlow()
+
 
     init {
         // ViewModel 初始化时加载初始数据
@@ -25,7 +39,22 @@ class DebugViewModel : ViewModel() {
 
     private fun loadInitialData() {
         viewModelScope.launch {
-            // 在这里你可以从数据库、网络或SharedPreferences加载真实数据
+
+            // 1. 设置为加载中状态
+            _uiState.value = DebugScreenUiState(isLoading = true)
+
+            // 2. 调用 UseCase
+            getDebugScreenDataUseCase("1", "2")
+                .onSuccess { items ->
+                    // 3. 如果成功，更新 UI 状态
+                    _uiState.value = DebugScreenUiState(isLoading = false, items = items)
+                }
+                .onFailure { error ->
+                    // 4. 如果失败，更新 UI 状态以显示错误信息
+                    _uiState.value = DebugScreenUiState(isLoading = false, error = error.message)
+                }
+
+            // 先模拟初始话完成
             val initialItems = listOf(
                 ListItem.UserInfoItem(
                     UserInfo(
@@ -39,38 +68,31 @@ class DebugViewModel : ViewModel() {
                 ListItem.UrlInputItem(UrlItem("https://www.google.com")),
                 ListItem.DebugSwitchItemType(DebugSwitchItem(isEnabled = true))
             )
-            _uiState.value = initialItems
+            _uiState.value.items = initialItems
         }
     }
 
-    // 处理URL输入变化的事件
     fun onUrlChanged(newUrl: String) {
-        val currentList = _uiState.value.toMutableList()
+        val currentList = _uiState.value.items.toMutableList()
         val index = currentList.indexOfFirst { it is ListItem.UrlInputItem }
         if (index != -1) {
             currentList[index] = ListItem.UrlInputItem(UrlItem(newUrl))
-            _uiState.value = currentList
+            _uiState.value.items = currentList
         }
     }
 
-    // 处理“进入”按钮点击事件
     fun onGoClicked(url: String) {
-        // 在这里执行实际的逻辑，例如跳转到新的WebView Activity
         Log.d("DebugViewModel", "Go button clicked with URL: $url")
-        // 示例：可以在这里启动一个新的 Activity
-        // context.startActivity(...)
     }
 
-    // 处理调试开关变化的事件
     fun onDebugSwitchChanged(isEnabled: Boolean) {
-        // 在这里执行实际的逻辑，例如更新 SharedPreferences
         Log.d("DebugViewModel", "Debug switch changed to: $isEnabled")
 
-        val currentList = _uiState.value.toMutableList()
+        val currentList = _uiState.value.items.toMutableList()
         val index = currentList.indexOfFirst { it is ListItem.DebugSwitchItemType }
         if (index != -1) {
             currentList[index] = ListItem.DebugSwitchItemType(DebugSwitchItem(isEnabled))
-            _uiState.value = currentList
+            _uiState.value.items = currentList
         }
     }
 }
