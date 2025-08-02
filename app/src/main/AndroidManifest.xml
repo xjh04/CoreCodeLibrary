@@ -16,8 +16,8 @@
         tools:targetApi="31" >
         <activity
             android:name=".demo1.MainActivity1"
-            android:exported="true" >
-        </activity>
+            android:exported="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true" >
@@ -27,19 +27,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".demo2.MainActivity2"
-            android:exported="true" >
-        </activity>
+            android:exported="true" />
+
         <activity
             android:name=".demo3.MainActivity3"
-            android:exported="true" >
-        </activity>
+            android:exported="true" />
 
         <activity
             android:name=".demo4.MainActivity4"
-            android:exported="true" >
-        </activity>
+            android:exported="true" />
+
+        <activity
+            android:name=".Compose.activity.ComposeMainActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

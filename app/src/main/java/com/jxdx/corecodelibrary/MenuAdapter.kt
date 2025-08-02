@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.jxdx.corecodelibrary.Compose.activity.ComposeMainActivity
 import com.jxdx.corecodelibrary.databinding.MenuItemBinding
 import com.jxdx.corecodelibrary.demo1.MainActivity1
 import com.jxdx.corecodelibrary.demo2.MainActivity2
@@ -53,8 +54,14 @@ class MenuAdapter(private val context: Context, private val data: List<String>) 
                     intent = Intent(context, MainActivity3::class.java)
                     context.startActivity(intent)
                 }
+
                 3 -> {
                     intent = Intent(context, MainActivity4::class.java)
+                    context.startActivity(intent)
+                }
+
+                4 -> {
+                    intent = Intent(context, ComposeMainActivity::class.java)
                     context.startActivity(intent)
                 }
             }
