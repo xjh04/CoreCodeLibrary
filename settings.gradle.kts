@@ -20,5 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "CoreCodeLibrary"
-include(":app")
-include(":CoreCodeLibrary")
+apply(from = "component_config.gradle.kts")

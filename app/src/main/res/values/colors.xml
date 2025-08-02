@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#CABE51</color>
     <color name="menu_item">#95DCFF</color>
+    <color name="light_blue_primary">#1E88E5</color>
 </resources>
