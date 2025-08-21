@@ -43,7 +43,7 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
     //项目本地依赖
-    implementation(project(":corecode"))
+
 
     // 网络请求
     implementation(libs.okhttp)

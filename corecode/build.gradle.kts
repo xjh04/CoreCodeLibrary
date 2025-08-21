@@ -43,7 +43,7 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
     //项目本地依赖
-
+    implementation(project(":common"))
 
     // 网络请求
     implementation(libs.okhttp)
@@ -56,8 +56,6 @@ dependencies {
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.runtime)
 
-    // https://mvnrepository.com/artifact/androidx.datastore/datastore-preferences
-    implementation ("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("com.orhanobut:logger:2.2.0")
-
+    implementation (libs.androidx.datastore.preferences)
+    implementation(libs.logger)
 }
