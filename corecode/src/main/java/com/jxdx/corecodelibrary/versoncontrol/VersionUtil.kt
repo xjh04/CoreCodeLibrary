@@ -9,6 +9,6 @@ object VersionUtil {
                 .versionName
         } catch (e: Exception) {
             "Unknown" // 异常处理
-        }
+        }.toString()
     }
 }
